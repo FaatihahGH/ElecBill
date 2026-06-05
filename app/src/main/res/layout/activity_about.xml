@@ -224,7 +224,7 @@
                         android:id="@+id/tvGitHubLink"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="https://github.com/yourusername/ElecBill"
+                        android:text="https://github.com/FaatihahGH/ElecBill"
                         android:textSize="14sp"
                         android:textColor="#FF6B35"
                         android:autoLink="web"
