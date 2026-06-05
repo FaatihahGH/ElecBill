@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- DARK THEME COLORS - ADD THESE -->
+    <color name="background">#121212</color>
+    <color name="surface">#1E1E1E</color>
+    <color name="navbar_bg">#2C2C2C</color>
+    <color name="navbar_icon">#FFFFFF</color>
+    <color name="navbar_text">#FFFFFF</color>
+    <color name="purple_top_bar">#3700B3</color>
+    <color name="purple_button">#3700B3</color>
+    <color name="border_color">#BB86FC</color>
+    <color name="text_primary">#FFFFFF</color>
+    <color name="text_secondary">#B3B3B3</color>
+    <color name="text_hint">#808080</color>
+    <color name="text_white">#FFFFFF</color>
+    <color name="calculate_button">#3700B3</color>
+    <color name="edit_button">#2196F3</color>
+    <color name="delete_button">#CF6679</color>
+    <color name="help_button">#F44336</color>
+    <color name="divider">#BB86FC</color>
+    <color name="profile_bg">#2196F3</color>
+    <color name="github_link">#FF6B35</color>
+    <color name="total_charges">#FF6B35</color>
+    <color name="final_cost">#4CAF50</color>
+    <color name="purple_container">#2C2C2C</color>
+
+    <style name="Base.Theme.ElecBill" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="android:windowBackground">@color/background</item>
+        <item name="colorPrimary">@color/purple_top_bar</item>
+        <item name="colorOnPrimary">@color/text_white</item>
+        <item name="colorSurface">@color/surface</item>
+        <item name="colorOnSurface">@color/text_primary</item>
+    </style>
+</resources>

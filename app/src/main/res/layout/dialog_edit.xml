@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="20dp"
+    android:background="?android:attr/colorBackground">
+
+    <!-- Title with THIN GRAY BORDER (same as activity_detail) -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:background="#A9A9A9"
+        android:padding="1dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="#5A338F"
+            android:padding="12dp"
+            android:gravity="center">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="✏️ Edit Bill"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="#FFFFFF"
+                android:gravity="center"/>
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- MONTH SELECTION -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Month"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        android:textColor="#75069C"
+        android:layout_marginBottom="8dp"/>
+
+    <!-- Month Spinner with THIN GRAY BORDER -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:background="#A9A9A9"
+        android:padding="1dp">
+
+        <Spinner
+            android:id="@+id/spinnerEditMonth"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="?android:attr/colorBackground"
+            android:padding="10dp"/>
+    </LinearLayout>
+
+    <!-- UNITS -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Electricity Units (kWh)"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        android:textColor="#75069C"
+        android:layout_marginBottom="8dp"/>
+
+    <!-- Units EditText with THIN GRAY BORDER -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:background="#A9A9A9"
+        android:padding="1dp">
+
+        <EditText
+            android:id="@+id/etEditUnits"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:hint="Enter units (1-1000)"
+            android:inputType="number"
+            android:background="?android:attr/colorBackground"
+            android:padding="10dp"
+            android:textColor="?android:attr/textColorPrimary"
+            android:textColorHint="?android:attr/textColorHint"/>
+    </LinearLayout>
+
+    <!-- REBATE -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Rebate Percentage"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        android:textColor="#75069C"
+        android:layout_marginBottom="8dp"/>
+
+    <!-- Rebate Slider with THIN GRAY BORDER -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:background="#A9A9A9"
+        android:padding="1dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:background="?android:attr/colorBackground"
+            android:padding="10dp">
+
+            <SeekBar
+                android:id="@+id/seekBarEditRebate"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:max="5"
+                android:progress="0"
+                android:progressTint="#75069C"
+                android:thumbTint="#75069C"/>
+
+            <TextView
+                android:id="@+id/tvEditRebateValue"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:text="0%"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="#75069C"
+                android:gravity="center"/>
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>

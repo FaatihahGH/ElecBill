@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- LIGHT THEME COLORS ONLY -->
+    <color name="background">#EDEBED</color>
+    <color name="surface">#FFFFFF</color>
+    <color name="navbar_bg">#FFFFFF</color>
+    <color name="navbar_icon">#5A338F</color>
+    <color name="navbar_text">#5A338F</color>
+    <color name="purple_top_bar">#5A338F</color>
+    <color name="purple_button">#5A338F</color>
+    <color name="border_color">#E8D5F2</color>
+    <color name="text_primary">#333333</color>
+    <color name="text_secondary">#666666</color>
+    <color name="text_hint">#888888</color>
+    <color name="text_white">#FFFFFF</color>
+    <color name="calculate_button">#5A338F</color>
+    <color name="edit_button">#2196F3</color>
+    <color name="delete_button">#F44336</color>
+    <color name="help_button">#F44336</color>
+    <color name="divider">#75069C</color>
+    <color name="profile_bg">#2196F3</color>
+    <color name="github_link">#FF6B35</color>
+    <color name="total_charges">#FF6B35</color>
+    <color name="final_cost">#4CAF50</color>
+    <color name="purple_container">#E3BBF2</color>
+</resources>

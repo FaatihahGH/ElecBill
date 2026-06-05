@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1225329029",
+    "project_id": "elecbill-eb0b4",
+    "storage_bucket": "elecbill-eb0b4.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1225329029:android:6882d3f7d52c80e2991cec",
+        "android_client_info": {
+          "package_name": "com.example.elecbill"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBgic7fq2Wv5iyc6nEg_TMkK5NIehwlFYU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
