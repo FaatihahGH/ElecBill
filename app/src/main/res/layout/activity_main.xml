@@ -4,9 +4,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="?android:attr/windowBackground">
+    android:background="#EDEBED">
 
-    <!-- PURPLE TOP BAR WITH HELP BUTTON - FIXED -->
+    <!-- PURPLE TOP BAR -->
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -33,8 +33,7 @@
                     android:textColor="#FFFFFF"
                     android:layout_centerHorizontal="true"/>
 
-                <!-- Small RED Help Button -->
-                <Button
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnHowToUse"
                     android:layout_width="36dp"
                     android:layout_height="36dp"
@@ -43,8 +42,11 @@
                     android:text="?"
                     android:textSize="18sp"
                     android:textStyle="bold"
-                    android:background="#F44336"
-                    android:textColor="#F25555"
+                    android:textColor="#F05B5B"
+                    app:strokeColor="#F05B5B"
+                    app:strokeWidth="2dp"
+                    app:cornerRadius="18dp"
+                    android:backgroundTint="#EDEBED"
                     android:padding="0dp"
                     android:stateListAnimator="@null"/>
 
@@ -63,7 +65,7 @@
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 
-    <!-- TOP ACTION BAR (Save, History, About) -->
+    <!-- TOP ACTION BAR -->
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -76,36 +78,8 @@
             android:orientation="horizontal"
             android:background="#FFFFFF"
             android:gravity="center"
-            android:weightSum="3">
+            android:weightSum="2">
 
-            <!-- Save Button -->
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:orientation="vertical"
-                android:gravity="center"
-                android:clickable="true"
-                android:focusable="true"
-                android:id="@+id/navSave"
-                android:background="?attr/selectableItemBackground">
-
-                <ImageView
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:src="@android:drawable/ic_menu_save"
-                    android:tint="#5A338F"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Save"
-                    android:textSize="10sp"
-                    android:textColor="#5A338F"
-                    android:layout_marginTop="4dp"/>
-            </LinearLayout>
-
-            <!-- View History Button -->
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
@@ -132,7 +106,6 @@
                     android:layout_marginTop="4dp"/>
             </LinearLayout>
 
-            <!-- About Button -->
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
@@ -162,7 +135,7 @@
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 
-    <!-- HOW TO USE SECTION - UNDER NAVBAR (HIDDEN BY DEFAULT) -->
+    <!-- HOW TO USE SECTION -->
     <LinearLayout
         android:id="@+id/instructionsBox"
         android:layout_width="match_parent"
@@ -198,7 +171,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="1️⃣ Select month from dropdown\n2️⃣ Enter electricity units (1-1000 kWh)\n3️⃣ Adjust rebate slider (0-5%)\n4️⃣ Click CALCULATE to see charges\n5️⃣ Click SAVE to store in database\n6️⃣ Click HISTORY to see all records\n7️⃣ Tap any record to view/edit/delete"
+                android:text="📌 HOW TO USE:\n\n➊ Pick a month\n➋ Type your electricity units (1-1000)\n➌ Slide for rebate (0-5%)\n➍ Tap CALCULATE\n➎ Tap SAVE to keep bill\n➏ Tap HISTORY to see all bills\n➐ Click any bill to EDIT or DELETE"
                 android:textSize="13sp"
                 android:textColor="#666666"
                 android:lineSpacingExtra="6dp"/>
@@ -223,7 +196,7 @@
                 android:text="Select Month"
                 android:textSize="16sp"
                 android:textStyle="bold"
-                android:textColor="?android:attr/textColorPrimary"
+                android:textColor="#333333"
                 android:layout_marginBottom="8dp"/>
 
             <LinearLayout
@@ -247,7 +220,7 @@
                 android:text="Electricity Units (kWh)"
                 android:textSize="16sp"
                 android:textStyle="bold"
-                android:textColor="?android:attr/textColorPrimary"
+                android:textColor="#333333"
                 android:layout_marginBottom="8dp"/>
 
             <LinearLayout
@@ -275,7 +248,7 @@
                 android:text="Rebate Percentage"
                 android:textSize="16sp"
                 android:textStyle="bold"
-                android:textColor="?android:attr/textColorPrimary"
+                android:textColor="#333333"
                 android:layout_marginBottom="8dp"/>
 
             <LinearLayout
@@ -314,7 +287,7 @@
                 </LinearLayout>
             </LinearLayout>
 
-            <!-- PURPLE CONTAINER BOX WITH CALCULATE BUTTON INSIDE -->
+            <!-- PURPLE CONTAINER BOX -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -408,19 +381,37 @@
                     </LinearLayout>
                 </LinearLayout>
 
-                <!-- CALCULATE BUTTON INSIDE PURPLE CONTAINER -->
-                <Button
+                <!-- CALCULATE BUTTON -->
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnCalculate"
                     android:layout_width="match_parent"
-                    android:layout_height="48dp"
+                    android:layout_height="50dp"
                     android:layout_marginTop="8dp"
                     android:text="Calculate"
-                    android:background="#5A338F"
                     android:textColor="#FFFFFF"
-                    android:textSize="14sp"
+                    android:textSize="15sp"
                     android:textStyle="bold"
-                    android:stateListAnimator="@null"/>
+                    app:cornerRadius="25dp"
+                    android:backgroundTint="#5A338F"
+                    android:stateListAnimator="@null"
+                    android:gravity="center"/>
 
+                <!-- SAVE BUTTON - Simple Button -->
+                <!-- SAVE BUTTON - GREEN, ROUND CORNERS (SAME AS CALCULATE) -->
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnSave"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="8dp"
+                    android:text="Save"
+                    android:textColor="#FFFFFF"
+                    android:textSize="15sp"
+                    android:textStyle="bold"
+                    app:cornerRadius="25dp"
+                    android:backgroundTint="#4CAF50"
+                    android:stateListAnimator="@null"
+                    android:visibility="gone"
+                    android:gravity="center"/>
             </LinearLayout>
 
         </LinearLayout>

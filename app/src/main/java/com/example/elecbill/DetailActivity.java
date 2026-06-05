@@ -1,23 +1,23 @@
 package com.example.elecbill;
 
 import android.app.AlertDialog;
+import android.database.Cursor;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.*;
-import android.widget.ArrayAdapter;
-import android.widget.Spinner;
 import androidx.appcompat.app.AppCompatActivity;
-import com.google.firebase.database.*;
+import java.text.DecimalFormat;
 
 public class DetailActivity extends AppCompatActivity {
 
     private TextView tvMonth, tvUnits, tvTotalCharges, tvRebatePercent, tvRebateAmount, tvFinalCost;
     private Button btnEdit, btnDelete;
-    private DatabaseReference databaseBills;
-    private String billId;
-    private BillEntry currentBill;
+    private DatabaseHelper dbHelper;
+    private int billId;
+    private DecimalFormat df = new DecimalFormat("0.00");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,8 +29,8 @@ public class DetailActivity extends AppCompatActivity {
             getSupportActionBar().setTitle("Bill Details");
         }
 
-        billId = getIntent().getStringExtra("bill_id");
-        databaseBills = FirebaseDatabase.getInstance().getReference("bills").child(billId);
+        billId = getIntent().getIntExtra("bill_id", -1);
+        dbHelper = new DatabaseHelper(this);
 
         initViews();
         loadData();
@@ -51,25 +51,23 @@ public class DetailActivity extends AppCompatActivity {
     }
 
     private void loadData() {
-        databaseBills.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                currentBill = dataSnapshot.getValue(BillEntry.class);
-                if (currentBill != null) {
-                    tvMonth.setText(currentBill.getMonth());
-                    tvUnits.setText(currentBill.getUnits() + " kWh");
-                    tvTotalCharges.setText(String.format("RM %.2f", currentBill.getTotalCharges()));
-                    tvRebatePercent.setText(String.format("%.0f%%", currentBill.getRebatePercent()));
-                    tvRebateAmount.setText(String.format("RM %.2f", currentBill.getRebateAmount()));
-                    tvFinalCost.setText(String.format("RM %.2f", currentBill.getFinalCost()));
-                }
-            }
+        Cursor cursor = dbHelper.getBillById(billId);
+        if (cursor.moveToFirst()) {
+            String month = cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_MONTH));
+            int units = cursor.getInt(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_UNITS));
+            double totalCharges = cursor.getDouble(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_TOTAL_CHARGES));
+            double rebatePercent = cursor.getDouble(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_REBATE_PERCENT));
+            double rebateAmount = cursor.getDouble(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_REBATE_AMOUNT));
+            double finalCost = cursor.getDouble(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_FINAL_COST));
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Toast.makeText(DetailActivity.this, "Failed to load", Toast.LENGTH_SHORT).show();
-            }
-        });
+            tvMonth.setText(month);
+            tvUnits.setText(units + " kWh");
+            tvTotalCharges.setText("RM " + df.format(totalCharges));
+            tvRebatePercent.setText(String.format("%.0f%%", rebatePercent));
+            tvRebateAmount.setText("RM " + df.format(rebateAmount));
+            tvFinalCost.setText("RM " + df.format(finalCost));
+        }
+        cursor.close();
     }
 
     private void showEditDialog() {
@@ -78,47 +76,41 @@ public class DetailActivity extends AppCompatActivity {
 
         final View view = getLayoutInflater().inflate(R.layout.dialog_edit, null);
 
-        // Get all views from dialog
-        final Spinner spinnerMonth = view.findViewById(R.id.spinnerEditMonth);
+
+        final Spinner spinnerEditMonth = view.findViewById(R.id.spinnerEditMonth);
         final EditText etUnits = view.findViewById(R.id.etEditUnits);
         final SeekBar seekBar = view.findViewById(R.id.seekBarEditRebate);
         final TextView tvRebateValue = view.findViewById(R.id.tvEditRebateValue);
 
-        // Setup month spinner with all months
+        // Setup month spinner with months array
         String[] months = {"January", "February", "March", "April", "May", "June",
                 "July", "August", "September", "October", "November", "December"};
-
-// Create custom adapter with BLACK text color
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_spinner_item, months) {
-            @Override
-            public View getView(int position, View convertView, ViewGroup parent) {
-                View view = super.getView(position, convertView, parent);
-                TextView text = (TextView) view.findViewById(android.R.id.text1);
-                text.setTextColor(Color.BLACK);  // Change text color to BLACK
-                text.setTextSize(16);
-                return view;
-            }
-        };
-
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
+                android.R.layout.simple_spinner_item, months);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinnerMonth.setAdapter(adapter);
+        spinnerEditMonth.setAdapter(adapter);
 
-        // Load current values into the dialog
-        if (currentBill != null) {
-            // Set current month in spinner
-            int monthPosition = getMonthPosition(currentBill.getMonth());
-            spinnerMonth.setSelection(monthPosition);
+        // Load current bill data into dialog
+        Cursor cursor = dbHelper.getBillById(billId);
+        String currentMonth = "";
+        if (cursor.moveToFirst()) {
+            currentMonth = cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_MONTH));
+            etUnits.setText(String.valueOf(cursor.getInt(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_UNITS))));
+            int rebate = (int) cursor.getDouble(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_REBATE_PERCENT));
+            seekBar.setProgress(rebate);
+            tvRebateValue.setText(rebate + "%");
 
-            // Set units
-            etUnits.setText(String.valueOf(currentBill.getUnits()));
-
-            // Set rebate
-            seekBar.setProgress((int) currentBill.getRebatePercent());
-            tvRebateValue.setText((int) currentBill.getRebatePercent() + "%");
+            // Set spinner to current month
+            for (int i = 0; i < months.length; i++) {
+                if (months[i].equals(currentMonth)) {
+                    spinnerEditMonth.setSelection(i);
+                    break;
+                }
+            }
         }
+        cursor.close();
 
-        // Update rebate percentage display when slider moves
+
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
@@ -129,43 +121,33 @@ public class DetailActivity extends AppCompatActivity {
         });
 
         builder.setView(view);
-        builder.setPositiveButton("Update", (dialog, which) -> {
-            // Get values from dialog
-            String newMonth = spinnerMonth.getSelectedItem().toString();
+
+
+        SpannableString updateText = new SpannableString("Update");
+        updateText.setSpan(new ForegroundColorSpan(Color.parseColor("#4CAF50")),
+                0, updateText.length(), SpannableString.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+        builder.setPositiveButton(updateText, (dialog, which) -> {
+            String newMonth = spinnerEditMonth.getSelectedItem().toString();
             int units = Integer.parseInt(etUnits.getText().toString());
             int rebatePercent = seekBar.getProgress();
 
-            // Calculate charges
             double totalCharges = calculateTotalCharges(units);
             double rebateAmount = totalCharges * rebatePercent / 100;
             double finalCost = totalCharges - rebateAmount;
 
-            // Create updated bill with NEW month
-            BillEntry updatedBill = new BillEntry(billId, newMonth, units,
-                    totalCharges, rebatePercent, rebateAmount, finalCost);
-
-            // Save to Firebase
-            databaseBills.setValue(updatedBill)
-                    .addOnSuccessListener(aVoid -> {
-                        Toast.makeText(DetailActivity.this, "Bill updated", Toast.LENGTH_SHORT).show();
-                        loadData(); // Refresh the display
-                    })
-                    .addOnFailureListener(e -> Toast.makeText(DetailActivity.this, "Update failed", Toast.LENGTH_SHORT).show());
+            boolean updated = dbHelper.updateBill(billId, newMonth, units, totalCharges,
+                    rebatePercent, rebateAmount, finalCost);
+            if (updated) {
+                Toast.makeText(DetailActivity.this, "Bill updated", Toast.LENGTH_SHORT).show();
+                loadData();
+            } else {
+                Toast.makeText(DetailActivity.this, "Update failed", Toast.LENGTH_SHORT).show();
+            }
         });
+
         builder.setNegativeButton("Cancel", null);
         builder.show();
-    }
-
-    // Helper method to find month position in array
-    private int getMonthPosition(String month) {
-        String[] months = {"January", "February", "March", "April", "May", "June",
-                "July", "August", "September", "October", "November", "December"};
-        for (int i = 0; i < months.length; i++) {
-            if (months[i].equals(month)) {
-                return i;
-            }
-        }
-        return 0; // Default to January if not found
     }
 
     private double calculateTotalCharges(int units) {
@@ -197,12 +179,9 @@ public class DetailActivity extends AppCompatActivity {
                 .setTitle("Delete Bill")
                 .setMessage("Are you sure you want to delete this record?")
                 .setPositiveButton("Delete", (dialog, which) -> {
-                    databaseBills.removeValue()
-                            .addOnSuccessListener(aVoid -> {
-                                Toast.makeText(DetailActivity.this, "Bill deleted", Toast.LENGTH_SHORT).show();
-                                finish();
-                            })
-                            .addOnFailureListener(e -> Toast.makeText(DetailActivity.this, "Delete failed", Toast.LENGTH_SHORT).show());
+                    dbHelper.deleteBill(billId);
+                    Toast.makeText(DetailActivity.this, "Bill deleted", Toast.LENGTH_SHORT).show();
+                    finish();
                 })
                 .setNegativeButton("Cancel", null)
                 .show();

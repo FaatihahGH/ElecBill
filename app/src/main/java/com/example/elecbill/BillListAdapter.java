@@ -6,8 +6,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
-import java.text.DecimalFormat;
 import java.util.List;
+import java.text.DecimalFormat;
 
 public class BillListAdapter extends ArrayAdapter<BillEntry> {
     private Activity context;
@@ -15,7 +15,7 @@ public class BillListAdapter extends ArrayAdapter<BillEntry> {
     private DecimalFormat df = new DecimalFormat("0.00");
 
     public BillListAdapter(Activity context, List<BillEntry> billList) {
-        super(context, R.layout.list_bill_item, billList);
+        super(context, R.layout.list_bill_item , billList);
         this.context = context;
         this.billList = billList;
     }

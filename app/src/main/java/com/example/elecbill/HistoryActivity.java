@@ -1,19 +1,18 @@
 package com.example.elecbill;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.widget.ListView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
-import com.google.firebase.database.*;
 import java.util.ArrayList;
-import java.util.List;
 
 public class HistoryActivity extends AppCompatActivity {
 
     private ListView listViewHistory;
-    private DatabaseReference databaseBills;
-    private List<BillEntry> billList;
+    private DatabaseHelper dbHelper;
+    private ArrayList<BillEntry> billList;
     private BillListAdapter adapter;
 
     @Override
@@ -27,7 +26,7 @@ public class HistoryActivity extends AppCompatActivity {
         }
 
         listViewHistory = findViewById(R.id.listViewHistory);
-        databaseBills = FirebaseDatabase.getInstance().getReference("bills");
+        dbHelper = new DatabaseHelper(this);
         billList = new ArrayList<>();
 
         listViewHistory.setOnItemClickListener((parent, view, position, id) -> {
@@ -39,32 +38,36 @@ public class HistoryActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onStart() {
-        super.onStart();
+    protected void onResume() {
+        super.onResume();
+        loadData();
+    }
 
-        databaseBills.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                billList.clear();
-                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
-                    BillEntry bill = postSnapshot.getValue(BillEntry.class);
-                    if (bill != null) {
-                        billList.add(bill);
-                    }
-                }
-                adapter = new BillListAdapter(HistoryActivity.this, billList);
-                listViewHistory.setAdapter(adapter);
+    private void loadData() {
+        billList.clear();
+        Cursor cursor = dbHelper.getAllBills();
 
-                if (billList.isEmpty()) {
-                    Toast.makeText(HistoryActivity.this, "No records found", Toast.LENGTH_SHORT).show();
-                }
-            }
+        if (cursor.moveToFirst()) {
+            do {
+                int id = cursor.getInt(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_ID));
+                String month = cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_MONTH));
+                int units = cursor.getInt(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_UNITS));
+                double totalCharges = cursor.getDouble(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_TOTAL_CHARGES));
+                double rebatePercent = cursor.getDouble(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_REBATE_PERCENT));
+                double rebateAmount = cursor.getDouble(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_REBATE_AMOUNT));
+                double finalCost = cursor.getDouble(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_FINAL_COST));
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Toast.makeText(HistoryActivity.this, "Failed to load data", Toast.LENGTH_SHORT).show();
-            }
-        });
+                billList.add(new BillEntry(id, month, units, totalCharges, rebatePercent, rebateAmount, finalCost));
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+
+        adapter = new BillListAdapter(this, billList);
+        listViewHistory.setAdapter(adapter);
+
+        if (billList.isEmpty()) {
+            Toast.makeText(this, "No records found", Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override

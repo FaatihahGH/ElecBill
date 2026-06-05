@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="?android:attr/windowBackground">
+    android:background="#EDEBED">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
@@ -51,12 +51,12 @@
             android:orientation="vertical"
             android:padding="20dp">
 
-            <!-- Month Box - THIN GRAY BORDER -->
+            <!-- Month Box -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="12dp"
-                android:background="#A9A9A9"
+                android:background="#E8D5F2"
                 android:padding="1dp">
 
                 <LinearLayout
@@ -85,12 +85,12 @@
                 </LinearLayout>
             </LinearLayout>
 
-            <!-- Units Box - THIN GRAY BORDER -->
+            <!-- Units Box -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="12dp"
-                android:background="#A9A9A9"
+                android:background="#E8D5F2"
                 android:padding="1dp">
 
                 <LinearLayout
@@ -119,12 +119,12 @@
                 </LinearLayout>
             </LinearLayout>
 
-            <!-- Total Charges Box - THIN GRAY BORDER -->
+            <!-- Total Charges Box -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="12dp"
-                android:background="#A9A9A9"
+                android:background="#E8D5F2"
                 android:padding="1dp">
 
                 <LinearLayout
@@ -154,12 +154,12 @@
                 </LinearLayout>
             </LinearLayout>
 
-            <!-- Rebate Box - THIN GRAY BORDER -->
+            <!-- Rebate Box -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="12dp"
-                android:background="#A9A9A9"
+                android:background="#E8D5F2"
                 android:padding="1dp">
 
                 <LinearLayout
@@ -188,12 +188,12 @@
                 </LinearLayout>
             </LinearLayout>
 
-            <!-- Rebate Amount Box - THIN GRAY BORDER -->
+            <!-- Rebate Amount Box-->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="12dp"
-                android:background="#A9A9A9"
+                android:background="#E8D5F2"
                 android:padding="1dp">
 
                 <LinearLayout
@@ -222,12 +222,12 @@
                 </LinearLayout>
             </LinearLayout>
 
-            <!-- Final Cost Box - THIN GRAY BORDER -->
+            <!-- Final Cost Box - LIGHT PURPLE BORDER -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="24dp"
-                android:background="#A9A9A9"
+                android:background="#E8D5F2"
                 android:padding="1dp">
 
                 <LinearLayout
@@ -257,7 +257,7 @@
                 </LinearLayout>
             </LinearLayout>
 
-            <!-- Buttons -->
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -265,29 +265,34 @@
                 android:layout_marginTop="16dp"
                 android:layout_marginBottom="20dp">
 
-                <Button
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnEdit"
                     android:layout_width="0dp"
                     android:layout_height="50dp"
                     android:layout_weight="1"
                     android:layout_marginEnd="8dp"
                     android:text="Edit"
-                    android:background="#2196F3"
                     android:textColor="#FFFFFF"
                     android:textSize="14sp"
-                    android:textStyle="bold"/>
+                    android:textStyle="bold"
+                    app:cornerRadius="25dp"
+                    android:backgroundTint="#2196F3"
+                    android:stateListAnimator="@null"/>
 
-                <Button
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnDelete"
                     android:layout_width="0dp"
                     android:layout_height="50dp"
                     android:layout_weight="1"
                     android:layout_marginStart="8dp"
                     android:text="Delete"
-                    android:background="#F44336"
                     android:textColor="#FFFFFF"
                     android:textSize="14sp"
-                    android:textStyle="bold"/>
+                    android:textStyle="bold"
+                    app:cornerRadius="25dp"
+                    android:backgroundTint="#F44336"
+                    android:stateListAnimator="@null"/>
+
             </LinearLayout>
 
         </LinearLayout>

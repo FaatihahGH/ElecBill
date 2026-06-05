@@ -1,5 +1,3 @@
-
-// This is version 1.1
 package com.example.elecbill;
 
 import android.content.Intent;
@@ -10,8 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
 import androidx.appcompat.app.AppCompatActivity;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
+import com.google.android.material.button.MaterialButton;
 import java.text.DecimalFormat;
 
 public class MainActivity extends AppCompatActivity {
@@ -20,10 +17,11 @@ public class MainActivity extends AppCompatActivity {
     private EditText etUnits;
     private SeekBar seekBarRebate;
     private TextView tvRebateValue, tvTotalCharges, tvFinalCost;
-    private Button btnCalculate, btnHowToUse;
-    private LinearLayout instructionsBox, navSave, navHistory, navAbout;
+    private MaterialButton btnCalculate, btnSave;
+    private Button btnHowToUse;
+    private LinearLayout instructionsBox, navHistory, navAbout;
+    private DatabaseHelper dbHelper;
 
-    private DatabaseReference databaseBills;
     private DecimalFormat df = new DecimalFormat("0.00");
     private double currentTotalCharges = 0;
     private double currentFinalCost = 0;
@@ -33,12 +31,15 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        databaseBills = FirebaseDatabase.getInstance().getReference("bills");
+        dbHelper = new DatabaseHelper(this);
 
         initViews();
         setupSpinner();
         setupSeekBar();
         setupButtons();
+
+        //Save button
+        btnSave.setVisibility(View.GONE);
     }
 
     private void initViews() {
@@ -49,11 +50,10 @@ public class MainActivity extends AppCompatActivity {
         tvTotalCharges = findViewById(R.id.tvTotalCharges);
         tvFinalCost = findViewById(R.id.tvFinalCost);
         btnCalculate = findViewById(R.id.btnCalculate);
+        btnSave = findViewById(R.id.btnSave);
         btnHowToUse = findViewById(R.id.btnHowToUse);
         instructionsBox = findViewById(R.id.instructionsBox);
 
-        // Navigation bar items
-        navSave = findViewById(R.id.navSave);
         navHistory = findViewById(R.id.navHistory);
         navAbout = findViewById(R.id.navAbout);
     }
@@ -95,6 +95,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void setupButtons() {
         btnCalculate.setOnClickListener(v -> calculateBill());
+        btnSave.setOnClickListener(v -> saveToDatabase());
 
         btnHowToUse.setOnClickListener(v -> {
             if (instructionsBox.getVisibility() == View.GONE) {
@@ -106,8 +107,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        // Navigation bar click listeners
-        navSave.setOnClickListener(v -> saveToFirebase());
         navHistory.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, HistoryActivity.class)));
         navAbout.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, AboutActivity.class)));
     }
@@ -132,6 +131,9 @@ public class MainActivity extends AppCompatActivity {
         calculateFinalCost(currentTotalCharges, rebatePercent);
 
         tvTotalCharges.setText("RM " + df.format(currentTotalCharges));
+
+        // Show Save button
+        btnSave.setVisibility(View.VISIBLE);
     }
 
     private double calculateTotalCharges(int units) {
@@ -165,7 +167,7 @@ public class MainActivity extends AppCompatActivity {
         tvFinalCost.setText("RM " + df.format(currentFinalCost));
     }
 
-    private void saveToFirebase() {
+    private void saveToDatabase() {
         String month = spinnerMonth.getSelectedItem().toString();
         String unitsStr = etUnits.getText().toString().trim();
 
@@ -178,19 +180,15 @@ public class MainActivity extends AppCompatActivity {
         int rebatePercent = seekBarRebate.getProgress();
         double rebateAmount = currentTotalCharges * rebatePercent / 100;
 
-        String id = databaseBills.push().getKey();
-
-        BillEntry bill = new BillEntry(id, month, units, currentTotalCharges,
+        boolean inserted = dbHelper.insertBill(month, units, currentTotalCharges,
                 rebatePercent, rebateAmount, currentFinalCost);
 
-        databaseBills.child(id).setValue(bill)
-                .addOnSuccessListener(aVoid -> {
-                    Toast.makeText(MainActivity.this, "Bill saved to Firebase!", Toast.LENGTH_LONG).show();
-                    clearForm();
-                })
-                .addOnFailureListener(e -> {
-                    Toast.makeText(MainActivity.this, "Failed to save", Toast.LENGTH_SHORT).show();
-                });
+        if (inserted) {
+            Toast.makeText(this, "Bill saved to database!", Toast.LENGTH_LONG).show();
+            clearForm();
+        } else {
+            Toast.makeText(this, "Failed to save", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void clearForm() {
@@ -200,5 +198,8 @@ public class MainActivity extends AppCompatActivity {
         tvFinalCost.setText("RM 0.00");
         currentTotalCharges = 0;
         currentFinalCost = 0;
+
+        // Hide Save button again after clearing
+        btnSave.setVisibility(View.GONE);
     }
 }

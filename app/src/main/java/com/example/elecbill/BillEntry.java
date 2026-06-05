@@ -1,7 +1,7 @@
 package com.example.elecbill;
 
 public class BillEntry {
-    private String id;
+    private int id;
     private String month;
     private int units;
     private double totalCharges;
@@ -9,10 +9,7 @@ public class BillEntry {
     private double rebateAmount;
     private double finalCost;
 
-    public BillEntry() {
-    }
-
-    public BillEntry(String id, String month, int units, double totalCharges,
+    public BillEntry(int id, String month, int units, double totalCharges,
                      double rebatePercent, double rebateAmount, double finalCost) {
         this.id = id;
         this.month = month;
@@ -23,7 +20,7 @@ public class BillEntry {
         this.finalCost = finalCost;
     }
 
-    public String getId() { return id; }
+    public int getId() { return id; }
     public String getMonth() { return month; }
     public int getUnits() { return units; }
     public double getTotalCharges() { return totalCharges; }

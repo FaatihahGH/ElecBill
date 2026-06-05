@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="?android:attr/windowBackground">
+    android:background="#EDEBED">
 
     <!-- PURPLE TOP BAR -->
     <androidx.cardview.widget.CardView
@@ -52,7 +52,7 @@
             android:orientation="vertical"
             android:padding="20dp">
 
-            <!-- Profile Image with LIGHT PURPLE BORDER -->
+            <!-- Profile Image -->
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -72,7 +72,7 @@
 
             </LinearLayout>
 
-            <!-- Student Information - LIGHT PURPLE BORDER, WHITE INSIDE -->
+            <!-- Student Information -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -115,13 +115,13 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Course: CS240"
+                        android:text="Course: CS240 (INFORMATION TECHNOLOGY)"
                         android:textSize="14sp"
                         android:textColor="#666666"/>
                 </LinearLayout>
             </LinearLayout>
 
-            <!-- App Information - LIGHT PURPLE BORDER, WHITE INSIDE -->
+            <!-- App Information -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -162,7 +162,7 @@
                 </LinearLayout>
             </LinearLayout>
 
-            <!-- Instructions - LIGHT PURPLE BORDER, WHITE INSIDE -->
+            <!-- Instructions -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

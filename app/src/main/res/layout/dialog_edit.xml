@@ -5,14 +5,14 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:padding="20dp"
-    android:background="?android:attr/colorBackground">
+    android:background="#EDEBED">
 
-    <!-- Title with THIN GRAY BORDER (same as activity_detail) -->
+    <!-- Title -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="20dp"
-        android:background="#A9A9A9"
+        android:background="#E8D5F2"
         android:padding="1dp">
 
         <LinearLayout
@@ -45,19 +45,18 @@
         android:textColor="#75069C"
         android:layout_marginBottom="8dp"/>
 
-    <!-- Month Spinner with THIN GRAY BORDER -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
-        android:background="#A9A9A9"
+        android:background="#E8D5F2"
         android:padding="1dp">
 
         <Spinner
             android:id="@+id/spinnerEditMonth"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:background="?android:attr/colorBackground"
+            android:background="#FFFFFF"
             android:padding="10dp"/>
     </LinearLayout>
 
@@ -71,12 +70,11 @@
         android:textColor="#75069C"
         android:layout_marginBottom="8dp"/>
 
-    <!-- Units EditText with THIN GRAY BORDER -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
-        android:background="#A9A9A9"
+        android:background="#E8D5F2"
         android:padding="1dp">
 
         <EditText
@@ -85,10 +83,10 @@
             android:layout_height="50dp"
             android:hint="Enter units (1-1000)"
             android:inputType="number"
-            android:background="?android:attr/colorBackground"
+            android:background="#FFFFFF"
             android:padding="10dp"
-            android:textColor="?android:attr/textColorPrimary"
-            android:textColorHint="?android:attr/textColorHint"/>
+            android:textColor="#333333"
+            android:textColorHint="#888888"/>
     </LinearLayout>
 
     <!-- REBATE -->
@@ -101,19 +99,18 @@
         android:textColor="#75069C"
         android:layout_marginBottom="8dp"/>
 
-    <!-- Rebate Slider with THIN GRAY BORDER -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
-        android:background="#A9A9A9"
+        android:background="#E8D5F2"
         android:padding="1dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:background="?android:attr/colorBackground"
+            android:background="#FFFFFF"
             android:padding="10dp">
 
             <SeekBar
