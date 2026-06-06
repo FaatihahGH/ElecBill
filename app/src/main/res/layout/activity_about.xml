@@ -226,7 +226,7 @@
                         android:layout_height="wrap_content"
                         android:text="https://github.com/FaatihahGH/ElecBill"
                         android:textSize="14sp"
-                        android:textColor="#FF6B35"
+                        android:textColor="#2196F3"
                         android:autoLink="web"
                         android:linksClickable="true"/>
                 </LinearLayout>
